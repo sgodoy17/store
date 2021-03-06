@@ -10,5 +10,10 @@ namespace StoreTest.Utils
             Console.Write("\r\nPresione la tecla Enter para continuar");
             Console.ReadLine();
         }
+
+        public static void Simple(string message)
+        {
+            Console.WriteLine(message);
+        }
     }
 }

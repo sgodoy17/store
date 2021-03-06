@@ -21,14 +21,7 @@ namespace StoreTest.Modules.Client.Services
 
         public ClientEntity Find(string document)
         {
-            var client = clients.Find(item => item.Document == document);
-
-            if (client != null)
-            {
-                return client;
-            }
-
-            return null;
+            return clients.Find(item => item.Document == document);
         }
 
         public bool Create(ClientEntity client)
@@ -41,6 +34,34 @@ namespace StoreTest.Modules.Client.Services
             clients.Add(client);
 
             return true;
+        }
+
+        public bool Edit(ClientEntity client)
+        {
+            int index = FindIndex(client.Document);
+
+            if (index >= 0)
+            {
+                clients[index] = client;
+
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool Delete(string document)
+        {
+            int index = FindIndex(document);
+
+            if (index >= 0)
+            {
+                clients.RemoveAt(index);
+
+                return true;
+            }
+
+            return false;
         }
 
         /// <summary>
