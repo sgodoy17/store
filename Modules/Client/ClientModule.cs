@@ -8,22 +8,25 @@ namespace StoreTest.Modules.Client
 {
     public class ClientModule
     {
+        protected HomeModule homeModule;
+
         /// <summary>
         /// Este es el servicio que se encarga de almacenar la información del cliente
         /// </summary>
-        private ClientService service;
+        protected ClientService service;
 
         /// <summary>
         /// Utilizamos este para generar una nueva instancia del servicio de cliente
         /// que le estamos pasando desde el main
         /// </summary>
         /// <param name="service">instancia del servicio para mentener persistencia de datos</param>
-        public void SetService(ClientService service)
+        public ClientModule(HomeModule homeModule, ClientService service)
         {
+            this.homeModule = homeModule;
             this.service = service;
         }
 
-        public static void Run(bool showMenu = true)
+        public void Run(bool showMenu = true)
         {
             while (showMenu)
             {
@@ -41,7 +44,7 @@ namespace StoreTest.Modules.Client
         /// controlador.
         /// </summary>
         /// <returns>retorna un verdadero/falso</returns>
-        public static bool Menu()
+        public bool Menu()
         {
             // Limpia la consola
             Console.Clear();
@@ -75,12 +78,12 @@ namespace StoreTest.Modules.Client
             switch (Console.ReadLine())
             {
                 case "1":
-                    MessageUtil.Message((new ClientModule()).CreateClient());
+                    MessageUtil.Message(CreateClient());
                     return true;
                 case "2":
                     return true;
                 case "3":
-                    MessageUtil.Message((new ClientModule()).FindClient());
+                    MessageUtil.Message(FindClient());
                     return true;
                 case "4":
                     return true;
@@ -88,7 +91,7 @@ namespace StoreTest.Modules.Client
                     return true;
                 case "9":
                     // HomeModule por defecto recibe un true, esto es para volver al menu principal
-                    HomeModule.Run();
+                    homeModule.Run();
                     return true;
                 case "0":
                     return false;

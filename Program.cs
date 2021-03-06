@@ -6,7 +6,7 @@ namespace StoreTest
     {
         static void Main()
         {
-            HomeModule.Run();
+            new HomeModule().Run();
         }
     }
 }

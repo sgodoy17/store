@@ -1,4 +1,5 @@
 ﻿using StoreTest.Modules.Client;
+using StoreTest.Modules.Client.Services;
 using StoreTest.Utils;
 using System;
 
@@ -6,6 +7,13 @@ namespace StoreTest.Modules.Home
 {
     public class HomeModule
     {
+        protected ClientModule clientModule;
+
+        public HomeModule()
+        {
+            clientModule = new ClientModule(this, new ClientService());
+        }
+
         public void Run(bool showMenu = true)
         {
             while (showMenu)
@@ -38,7 +46,7 @@ namespace StoreTest.Modules.Home
             switch (Console.ReadLine())
             {
                 case "1":
-                    ClientModule.Run();
+                    clientModule.Run();
                     return true;
                 case "2":
                     return true;
