@@ -19,6 +19,7 @@ namespace StoreTest.Modules.Client
         /// Utilizamos este para generar una nueva instancia del servicio de cliente
         /// que le estamos pasando desde el main
         /// </summary>
+        /// <param name="homeModule">instancia de modulo home para tener persistencia de datos</param>
         /// <param name="service">instancia del servicio para mentener persistencia de datos</param>
         public ClientModule(HomeModule homeModule, ClientService service)
         {
