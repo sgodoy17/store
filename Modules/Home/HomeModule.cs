@@ -1,5 +1,6 @@
 ﻿using StoreTest.Modules.Client;
 using StoreTest.Modules.Client.Services;
+using StoreTest.Modules.Config;
 using StoreTest.Modules.Invoice.Services;
 using StoreTest.Modules.Product;
 using StoreTest.Modules.Product.Services;
@@ -11,6 +12,8 @@ namespace StoreTest.Modules.Home
 {
     public class HomeModule
     {
+        protected ConfigModule configModule;
+
         protected ClientModule clientModule;
 
         protected ProductModule productModule;
@@ -23,6 +26,7 @@ namespace StoreTest.Modules.Home
             ProductService productService = new ProductService();
             InvoiceService invoiceService = new InvoiceService();
 
+            configModule = new ConfigModule(clientService, productService);
             clientModule = new ClientModule(this, clientService);
             productModule = new ProductModule(this, productService);
             saleModule = new SaleModule(this, clientService, productService, invoiceService);
@@ -30,6 +34,8 @@ namespace StoreTest.Modules.Home
 
         public void Run(bool showMenu = true)
         {
+            configModule.Run();
+
             while (showMenu)
             {
                 showMenu = Menu();
@@ -43,7 +49,7 @@ namespace StoreTest.Modules.Home
         {
             Console.Clear();
 
-            Console.WriteLine("*******Nombre de la empresa******");
+            Console.WriteLine($"*******{configModule.GetCompanyName()}******");
             Console.WriteLine("1) Modulo clientes");
             Console.WriteLine("2) Modulo productos");
             Console.WriteLine("3) Modulo ventas");
