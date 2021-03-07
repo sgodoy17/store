@@ -1,28 +1,19 @@
-﻿using StoreTest.Modules.Client.Entities;
-using StoreTest.Modules.Client.Services;
-using StoreTest.Modules.Home;
+﻿using StoreTest.Modules.Home;
+using StoreTest.Modules.Product.Entities;
+using StoreTest.Modules.Product.Services;
 using StoreTest.Utils;
 using System;
 using System.Collections.Generic;
 
-namespace StoreTest.Modules.Client
+namespace StoreTest.Modules.Product
 {
-    public class ClientModule
+    public class ProductModule
     {
         protected HomeModule homeModule;
 
-        /// <summary>
-        /// Este es el servicio que se encarga de almacenar la información del cliente
-        /// </summary>
-        protected ClientService service;
+        protected ProductService service;
 
-        /// <summary>
-        /// Utilizamos este para generar una nueva instancia del servicio de cliente
-        /// que le estamos pasando desde el main
-        /// </summary>
-        /// <param name="homeModule">instancia de modulo home para tener persistencia de datos</param>
-        /// <param name="service">instancia del servicio para mentener persistencia de datos</param>
-        public ClientModule(HomeModule homeModule, ClientService service)
+        public ProductModule(HomeModule homeModule, ProductService service)
         {
             this.homeModule = homeModule;
             this.service = service;
@@ -39,25 +30,18 @@ namespace StoreTest.Modules.Client
             Environment.Exit(0);
         }
 
-        /// <summary>
-        /// Este es el modulo de clientes, se encarga de instanciar todo este metodo,
-        /// es invocado por el modulo home, este se encarga de pintar el menu,
-        /// Toda la logica de negocio esta en este metodo, digamos que es una especie de
-        /// controlador.
-        /// </summary>
-        /// <returns>retorna un verdadero/falso</returns>
         public bool Menu()
         {
             // Limpia la consola
             Console.Clear();
 
             // Imprime el primer bloque del menu (crear, listar, buscar, editar, eliminar)
-            Console.WriteLine("*******Modulo Clientes******");
-            Console.WriteLine("1) Crear cliente");
-            Console.WriteLine("2) Listar clientes");
-            Console.WriteLine("3) Buscar cliente (documento)");
-            Console.WriteLine("4) Editar cliente (documento)");
-            Console.WriteLine("5) Eliminar cliente (document)");
+            Console.WriteLine("*******Modulo Productos******");
+            Console.WriteLine("1) Crear producto");
+            Console.WriteLine("2) Listar productos");
+            Console.WriteLine("3) Buscar producto (codigo)");
+            Console.WriteLine("4) Editar producto (codigo)");
+            Console.WriteLine("5) Eliminar producto (codigo)");
 
             // Salto de linea
             Console.WriteLine("\r\n");
@@ -80,16 +64,16 @@ namespace StoreTest.Modules.Client
             switch (Console.ReadLine())
             {
                 case "1":
-                    CreateClient();
+                    CreateProduct();
                     return true;
                 case "2":
-                    ListClients();
+                    ListProducts();
                     return true;
                 case "3":
-                    FindClient();
+                    FindProduct();
                     return true;
                 case "4":
-                    EditClient();
+                    EditProduct();
                     return true;
                 case "5":
                     DeleteClient();
@@ -106,18 +90,18 @@ namespace StoreTest.Modules.Client
             }
         }
 
-        private void ListClients()
+        private void ListProducts()
         {
             // Limpia la consola
             Console.Clear();
 
-            List<ClientEntity> clients = service.FindAll();
+            List<ProductEntity> products = service.FindAll();
 
-            if (clients.Count >= 1)
+            if (products.Count >= 1)
             {
-                foreach (ClientEntity client in clients)
+                foreach (ProductEntity product in products)
                 {
-                    MessageUtil.Simple(client.ConvertToString());
+                    MessageUtil.Simple(product.ConvertToString());
                 }
 
                 MessageUtil.Message("Final de la lista");
@@ -128,85 +112,85 @@ namespace StoreTest.Modules.Client
             }
         }
 
-        private void CreateClient()
+        private void CreateProduct()
         {
             // Limpia la consola
             Console.Clear();
 
-            ClientEntity client = new ClientEntity();
+            ProductEntity product = new ProductEntity();
 
-            Console.Write("Ingrese el Documento: ");
-            client.Document = Console.ReadLine();
+            Console.Write("Ingrese el Codigo: ");
+            product.Code = Console.ReadLine();
 
             Console.Write("Ingrese el Nombre: ");
-            client.Name = Console.ReadLine();
+            product.Name = Console.ReadLine();
 
-            Console.Write("Ingregse la Dirección: ");
-            client.Address = Console.ReadLine();
+            Console.Write("Ingregse el Precio: ");
+            product.Price = double.Parse(Console.ReadLine());
 
-            Console.Write("Ingrese el Telefono: ");
-            client.Phone = Console.ReadLine();
+            Console.Write("Ingrese la Cantidad: ");
+            product.Amount = int.Parse(Console.ReadLine());
 
-            if (! service.Create(client))
+            if (!service.Create(product))
             {
-                MessageUtil.Message("El numero de documento ya se encuentra en nuestra base de datos.");
+                MessageUtil.Message("El codigo ya se encuentra en nuestra base de datos.");
             }
             else
             {
-                MessageUtil.Message("Cliente creado satisfactoriamente");
+                MessageUtil.Message("Producto creado satisfactoriamente");
             }
         }
 
-        private void FindClient()
+        private void FindProduct()
         {
             // Limpia la consola
             Console.Clear();
 
-            Console.Write("Ingrese el Documento: ");
-            ClientEntity client = service.Find(Console.ReadLine().ToString());
+            Console.Write("Ingrese el Codigo: ");
+            ProductEntity product = service.Find(Console.ReadLine().ToString());
 
-            if (client == null)
+            if (product == null)
             {
-                MessageUtil.Message("No se encontraron reguistros con ese numero de documento.");
+                MessageUtil.Message("No se encontraron reguistros con ese codigo.");
             }
             else
             {
-                MessageUtil.Message(client.ConvertToString());
+                MessageUtil.Message(product.ConvertToString());
             }
         }
 
-        private void EditClient()
+        private void EditProduct()
         {
             // Limpia la consola
             Console.Clear();
 
-            Console.Write("Ingrese el Documento: ");
-            ClientEntity client = service.Find(Console.ReadLine().ToString());
+            Console.Write("Ingrese el Codigo: ");
+            ProductEntity product = service.Find(Console.ReadLine().ToString());
 
-            if (client == null)
+            if (product == null)
             {
-                MessageUtil.Message("No se encontraron reguistros con ese numero de documento.");
+                MessageUtil.Message("No se encontraron reguistros con ese codigo.");
             }
             else
             {
                 bool exit = false;
                 string message = "";
 
-                while (! exit)
+                while (!exit)
                 {
                     // Limpia la consola
                     Console.Clear();
 
-                    Console.WriteLine($"Cliente: {client.ConvertToString()}");
+                    Console.WriteLine($"Producto: {product.ConvertToString()}");
 
                     // Salto de linea
                     Console.WriteLine("\r\n");
 
                     Console.WriteLine("Que parametro desea cambiar?");
-                    Console.WriteLine("1) Documento");
+                    Console.WriteLine("1) Codigo");
                     Console.WriteLine("2) Nombre");
-                    Console.WriteLine("3) Dirección");
-                    Console.WriteLine("4) Telefono");
+                    Console.WriteLine("3) Precio");
+                    Console.WriteLine("4) Cantidad");
 
                     // Salto de linea
                     Console.WriteLine("\r\n");
@@ -226,8 +210,8 @@ namespace StoreTest.Modules.Client
                             Console.Clear();
 
                             // Solicitar documento
-                            Console.Write("Ingrese el Documento: ");
-                            client.Document = Console.ReadLine();
+                            Console.Write("Ingrese el Codigo: ");
+                            product.Code = Console.ReadLine();
                             exit = false;
                             break;
                         case "2":
@@ -236,7 +220,7 @@ namespace StoreTest.Modules.Client
 
                             // Solicitar nombre
                             Console.Write("Ingrese el Nombre: ");
-                            client.Name = Console.ReadLine();
+                            product.Name = Console.ReadLine();
                             exit = false;
                             break;
                         case "3":
@@ -244,8 +228,8 @@ namespace StoreTest.Modules.Client
                             Console.Clear();
 
                             // Solicitar direccion
-                            Console.Write("Ingregse la Dirección: ");
-                            client.Address = Console.ReadLine();
+                            Console.Write("Ingregse el Precio: ");
+                            product.Price = double.Parse(Console.ReadLine());
                             exit = false;
                             break;
                         case "4":
@@ -253,8 +237,8 @@ namespace StoreTest.Modules.Client
                             Console.Clear();
 
                             // Solicitar telefono
-                            Console.Write("Ingrese el Telefono: ");
-                            client.Phone = Console.ReadLine();
+                            Console.Write("Ingrese la Cantidad: ");
+                            product.Amount = int.Parse(Console.ReadLine());
                             exit = false;
                             break;
                         case "9":
@@ -262,9 +246,9 @@ namespace StoreTest.Modules.Client
                             Console.Clear();
 
                             // Llama al servicio, envia el cliente y procede a editarlo
-                            service.Edit(client);
+                            service.Edit(product);
                             exit = true;
-                            message = "Cliente editado satisfactoriamente";
+                            message = "Producto editado satisfactoriamente";
                             break;
                         case "0":
                             // Limpia la consola
@@ -287,15 +271,15 @@ namespace StoreTest.Modules.Client
             // Limpia la consola
             Console.Clear();
 
-            Console.Write("Ingrese el Documento: ");
+            Console.Write("Ingrese el Codigo: ");
 
             if (! service.Delete(Console.ReadLine().ToString()))
             {
-                MessageUtil.Message("No se encontraron reguistros con ese numero de documento.");
+                MessageUtil.Message("No se encontraron reguistros con ese codigo.");
             }
             else
             {
-                MessageUtil.Message("Cliente eliminado satisfactoriamente");
+                MessageUtil.Message("Producto eliminado satisfactoriamente");
             }
         }
     }
