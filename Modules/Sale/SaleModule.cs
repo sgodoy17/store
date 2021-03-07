@@ -131,7 +131,7 @@ namespace StoreTest.Modules.Sale
 
                     // Salto de linea
                     Console.WriteLine("\r\n");
-                    Console.WriteLine("9) Guardar cambios");
+                    Console.WriteLine("9) Completar venta");
                     Console.WriteLine("0) Cancelar");
 
                     // Salto de linea

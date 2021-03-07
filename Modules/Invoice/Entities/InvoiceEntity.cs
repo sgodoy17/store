@@ -66,6 +66,11 @@ namespace StoreTest.Modules.Invoice.Entities
             set { created = value; }
         }
 
+        public string ConverToStringHeader()
+        {
+            return $"Factura: {code},  Documento: {document}, Total: {total}, Fecha: {created} \n";
+        }
+
         public string ConverToString()
         {
             string title = "\n *******Nombre de la empresa****** \n";

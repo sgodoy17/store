@@ -9,6 +9,11 @@ namespace StoreTest.Modules.Invoice.Services
     {
         protected List<InvoiceEntity> invoices = new List<InvoiceEntity>();
 
+        public List<InvoiceEntity> FindAll()
+        {
+            return invoices;
+        }
+
         public InvoiceEntity Find(string code)
         {
             return invoices.Find(item => item.Code == code);
