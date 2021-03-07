@@ -4,7 +4,7 @@ using System.Text;
 
 namespace StoreTest.Modules.Invoice
 {
-    class Invoice
+    class InvoiceModule
     {
     }
 }

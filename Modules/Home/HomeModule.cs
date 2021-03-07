@@ -1,7 +1,9 @@
 ﻿using StoreTest.Modules.Client;
 using StoreTest.Modules.Client.Services;
+using StoreTest.Modules.Invoice.Services;
 using StoreTest.Modules.Product;
 using StoreTest.Modules.Product.Services;
+using StoreTest.Modules.Sale;
 using StoreTest.Utils;
 using System;
 
@@ -13,10 +15,17 @@ namespace StoreTest.Modules.Home
 
         protected ProductModule productModule;
 
+        protected SaleModule saleModule;
+
         public HomeModule()
         {
-            clientModule = new ClientModule(this, new ClientService());
-            productModule = new ProductModule(this, new ProductService());
+            ClientService clientService = new ClientService();
+            ProductService productService = new ProductService();
+            InvoiceService invoiceService = new InvoiceService();
+
+            clientModule = new ClientModule(this, clientService);
+            productModule = new ProductModule(this, productService);
+            saleModule = new SaleModule(this, clientService, productService, invoiceService);
         }
 
         public void Run(bool showMenu = true)
@@ -57,6 +66,7 @@ namespace StoreTest.Modules.Home
                     productModule.Run();
                     return true;
                 case "3":
+                    saleModule.Run();
                     return true;
                 case "4":
                     return true;

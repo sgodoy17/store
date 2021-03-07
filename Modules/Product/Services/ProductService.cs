@@ -8,7 +8,7 @@ namespace StoreTest.Modules.Product.Services
         /// <summary>
         /// Este objeto es donde vamos a almacenar temporalmente los productos
         /// </summary>
-        readonly List<ProductEntity> products = new List<ProductEntity>();
+        protected List<ProductEntity> products = new List<ProductEntity>();
 
         /// <summary>
         /// Este metodo se utiliza para obtener la lista de productos almacenados
@@ -48,6 +48,18 @@ namespace StoreTest.Modules.Product.Services
             }
 
             return false;
+        }
+
+        public void UpdateAmount(ProductEntity product)
+        {
+            int index = FindIndex(product.Code);
+            ProductEntity old = Find(product.Code);
+
+            if (index >= 0)
+            {
+                int amount = old.Amount - product.Amount;
+                products[index].Amount = amount;
+            }
         }
 
         public bool Delete(string code)
