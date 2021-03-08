@@ -40,6 +40,11 @@ namespace StoreTest.Modules.Invoice.Services
         {
             InvoiceEntity invoice = Find(code);
 
+            if (invoice == null)
+            {
+                return false;
+            }
+
             if (! invoice.Status)
             {
                 return false;

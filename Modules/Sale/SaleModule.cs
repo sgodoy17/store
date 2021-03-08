@@ -214,7 +214,7 @@ namespace StoreTest.Modules.Sale
             if (invoiceService.Create(invoice))
             {
                 UpdateProducts(invoice.Products);
-                return invoice.ConverToString();
+                return invoice.ConvertToString();
             }
             else
             {

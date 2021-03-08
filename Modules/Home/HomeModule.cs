@@ -1,6 +1,7 @@
 ﻿using StoreTest.Modules.Client;
 using StoreTest.Modules.Client.Services;
 using StoreTest.Modules.Config;
+using StoreTest.Modules.Invoice;
 using StoreTest.Modules.Invoice.Services;
 using StoreTest.Modules.Product;
 using StoreTest.Modules.Product.Services;
@@ -21,6 +22,8 @@ namespace StoreTest.Modules.Home
 
         protected SaleModule saleModule;
 
+        protected InvoiceModule invoiceModule;
+
         protected ReportModule reportModule;
 
         public HomeModule()
@@ -33,6 +36,7 @@ namespace StoreTest.Modules.Home
             clientModule = new ClientModule(this, clientService);
             productModule = new ProductModule(this, productService);
             saleModule = new SaleModule(this, clientService, productService, invoiceService);
+            invoiceModule = new InvoiceModule(this, invoiceService);
             reportModule = new ReportModule(this, clientService, productService, invoiceService);
         }
 
@@ -80,6 +84,7 @@ namespace StoreTest.Modules.Home
                     saleModule.Run();
                     return true;
                 case "4":
+                    invoiceModule.Run();
                     return true;
                 case "5":
                     reportModule.Run();
